@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vecindad del Chavo — Funza, Cundinamarca</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --tierra: #8B4513;
+      --arcilla: #C4622D;
+      --ocre: #D4A853;
+      --crema: #F5ECD7;
+      --verde-sabana: #4A6741;
+      --verde-claro: #7A9B6F;
+      --negro: #1A1209;
+      --humo: #2D2418;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--negro);
+      color: var(--crema);
+      font-family: 'Cormorant Garamond', serif;
+      overflow-x: hidden;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse at 20% 50%, rgba(139,69,19,0.3) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(74,103,65,0.25) 0%, transparent 50%),
+        radial-gradient(ellipse at 60% 80%, rgba(196,98,45,0.2) 0%, transparent 50%),
+        url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092?w=1800&q=80') center/cover no-repeat;
+      filter: brightness(0.35) sepia(0.4);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, var(--negro) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem;
+      animation: fadeUp 1.4s ease forwards;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--ocre);
+      margin-bottom: 1.5rem;
+      opacity: 0.9;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 10vw, 9rem);
+      font-weight: 900;
+      line-height: 0.9;
+      color: var(--crema);
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--ocre);
+      display: block;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      font-style: italic;
+      color: rgba(245,236,215,0.75);
+      margin-top: 1.5rem;
+      font-weight: 300;
+    }
+
+    .hero-divider {
+      width: 80px;
+      height: 1px;
+      background: var(--ocre);
+      margin: 2rem auto;
+      opacity: 0.6;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0.6;
+      animation: bounce 2s infinite;
+    }
+
+    .scroll-indicator span {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .scroll-arrow {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--ocre), transparent);
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, rgba(26,18,9,0.8), transparent);
+      backdrop-filter: blur(4px);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--ocre);
+      letter-spacing: 0.05em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--crema);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.8;
+      transition: opacity 0.2s, color 0.2s;
+    }
+
+    .nav-links a:hover { opacity: 1; color: var(--ocre); }
+
+    /* SECTIONS */
+    section { padding: 6rem 2rem; }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--arcilla);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--crema);
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title em {
+      font-style: italic;
+      color: var(--ocre);
+    }
+
+    .section-body {
+      font-size: 1.15rem;
+      line-height: 1.85;
+      color: rgba(245,236,215,0.75);
+      font-weight: 300;
+      max-width: 65ch;
+    }
+
+    /* FUNZA CULTURA */
+    .cultura {
+      background: var(--negro);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .cultura-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      margin-top: 4rem;
+    }
+
+    .cultura-image {
+      position: relative;
+    }
+
+    .cultura-image img {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+      filter: sepia(0.3) brightness(0.85);
+    }
+
+    .cultura-image::before {
+      content: '';
+      position: absolute;
+      top: -15px;
+      left: -15px;
+      right: 15px;
+      bottom: 15px;
+      border: 1px solid var(--ocre);
+      opacity: 0.3;
+      z-index: 0;
+    }
+
+    .cultura-image img { position: relative; z-index: 1; }
+
+    .cultura-text { padding: 1rem 0; }
+
+    .stat-row {
+      display: flex;
+      gap: 3rem;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(212,168,83,0.2);
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--ocre);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.6;
+      margin-top: 0.3rem;
+    }
+
+    /* SABANA */
+    .sabana {
+      background: var(--humo);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sabana::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1800&q=60') center/cover;
+      opacity: 0.07;
+    }
+
+    .sabana-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .sabana-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+
+    .sabana-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(212,168,83,0.15);
+      padding: 2.5rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .sabana-card:hover {
+      border-color: rgba(212,168,83,0.5);
+      transform: translateY(-4px);
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--ocre);
+      margin-bottom: 0.8rem;
+    }
+
+    .card-text {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: rgba(245,236,215,0.65);
+      font-weight: 300;
+    }
+
+    /* PLATOS */
+    .platos {
+      background: var(--negro);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .platos-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+
+    .platos-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3px;
+    }
+
+    .plato-item {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .plato-item:first-child {
+      grid-row: span 2;
+    }
+
+    .plato-item img {
+      width: 100%;
+      height: 100%;
+      min-height: 280px;
+      object-fit: cover;
+      filter: brightness(0.7) sepia(0.2);
+      transition: filter 0.5s, transform 0.5s;
+    }
+
+    .plato-item:hover img {
+      filter: brightness(0.5) sepia(0.3);
+      transform: scale(1.04);
+    }
+
+    .plato-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 2rem;
+      background: linear-gradient(to top, rgba(26,18,9,0.95), transparent);
+      transform: translateY(20px);
+      transition: transform 0.3s;
+    }
+
+    .plato-item:hover .plato-info { transform: translateY(0); }
+
+    .plato-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--crema);
+      margin-bottom: 0.4rem;
+    }
+
+    .plato-desc {
+      font-size: 0.9rem;
+      color: rgba(245,236,215,0.7);
+      font-style: italic;
+    }
+
+    .plato-tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ocre);
+      border: 1px solid var(--ocre);
+      padding: 0.2rem 0.6rem;
+      margin-bottom: 0.8rem;
+    }
+
+    /* TRADICION */
+    .tradicion {
+      background: var(--humo);
+      text-align: center;
+    }
+
+    .tradicion-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .quote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--crema);
+      margin: 3rem 0;
+      position: relative;
+      padding: 0 3rem;
+    }
+
+    .quote::before, .quote::after {
+      content: '"';
+      font-size: 6rem;
+      color: var(--ocre);
+      opacity: 0.3;
+      position: absolute;
+      line-height: 1;
+    }
+
+    .quote::before { top: -1rem; left: 0; }
+    .quote::after { bottom: -3rem; right: 0; content: '"'; }
+
+    .tradicion-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      margin-top: 5rem;
+      background: rgba(212,168,83,0.1);
+    }
+
+    .tradicion-item {
+      background: var(--humo);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .tradicion-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      color: var(--arcilla);
+      opacity: 0.4;
+      display: block;
+      font-weight: 900;
+      margin-bottom: 1rem;
+    }
+
+    .tradicion-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--ocre);
+      margin-bottom: 0.5rem;
+    }
+
+    .tradicion-text {
+      font-size: 0.9rem;
+      color: rgba(245,236,215,0.55);
+      line-height: 1.6;
+    }
+
+    /* RESTAURANTE */
+    .restaurante {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .restaurante-split {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .restaurante-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 8px;
+      height: 550px;
+    }
+
+    .restaurante-images img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: sepia(0.25) brightness(0.85);
+    }
+
+    .restaurante-images img:first-child {
+      grid-row: span 2;
+    }
+
+    .amenity {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(212,168,83,0.1);
+    }
+
+    .amenity-icon { font-size: 1.3rem; }
+
+    .amenity-text {
+      font-size: 1rem;
+      color: rgba(245,236,215,0.75);
+    }
+
+    .cta-btn {
+      display: inline-block;
+      margin-top: 2.5rem;
+      padding: 1rem 3rem;
+      background: var(--arcilla);
+      color: var(--crema);
+      text-decoration: none;
+      font-family: 'Libre Baskerville', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .cta-btn:hover {
+      background: var(--tierra);
+      transform: translateY(-2px);
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--negro);
+      border-top: 1px solid rgba(212,168,83,0.15);
+      padding: 4rem 2rem 2rem;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-style: italic;
+      color: var(--ocre);
+      margin-bottom: 1rem;
+    }
+
+    .footer-tagline {
+      font-style: italic;
+      color: rgba(245,236,215,0.5);
+      margin-bottom: 2rem;
+    }
+
+    .footer-info {
+      font-size: 0.85rem;
+      color: rgba(245,236,215,0.4);
+      line-height: 2;
+    }
+
+    .footer-bottom {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(212,168,83,0.1);
+      font-size: 0.75rem;
+      color: rgba(245,236,215,0.25);
+      letter-spacing: 0.1em;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .cultura-grid, .restaurante-split { grid-template-columns: 1fr; gap: 3rem; }
+      .sabana-cards { grid-template-columns: 1fr; }
+      .platos-grid { grid-template-columns: 1fr; }
+      .plato-item:first-child { grid-row: span 1; }
+      .tradicion-grid { grid-template-columns: repeat(2, 1fr); }
+      .restaurante-images { height: 350px; }
+      .stat-row { gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Vecindad del Chavo</div>
+    <ul class="nav-links">
+      <li><a href="#cultura">Funza</a></li>
+      <li><a href="#sabana">Sabana</a></li>
+      <li><a href="#platos">Platos</a></li>
+      <li><a href="#restaurante">Nosotros</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Funza, Cundinamarca — Sabana de Bogotá</p>
+      <h1 class="hero-title">
+        Vecindad
+        <em>del Chavo</em>
+      </h1>
+      <div class="hero-divider"></div>
+      <p class="hero-subtitle">Sabor y conexión en cada bocado.<br>La esencia de la cultura funzana en cada plato artesanal.</p>
+    </div>
+    <div class="scroll-indicator">
+      <span>Descubrir</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- CULTURA FUNZA -->
+  <section id="cultura" style="background: var(--negro); padding: 7rem 2rem;">
+    <div class="cultura reveal">
+      <span class="section-label">Historia & Territorio</span>
+      <div class="cultura-grid">
+        <div class="cultura-image">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80" alt="Paisaje Funza">
+        </div>
+        <div class="cultura-text">
+          <h2 class="section-title">Funza,<br><em>corazón de la Sabana</em></h2>
+          <p class="section-body">
+            Funza es un municipio de Cundinamarca ubicado en la Sabana de Bogotá, a 16 km de la capital. Su nombre proviene del muisca <strong style="color: var(--ocre);">"Bacatá"</strong>, que significa "campo labrado cerca de la sierra". Esta tierra fértil ha sido hogar de civilizaciones que han dejado su huella en la gastronomía, las tradiciones y el alma de sus gentes.
+          </p>
+          <p class="section-body" style="margin-top: 1.2rem;">
+            La cultura funzana es una mezcla rica entre la herencia muisca, la influencia española colonial y la vivacidad campesina de la Sabana. Sus fiestas, sabores y ritmos cuentan una historia de siglos que sobrevive en cada hogar y en cada mesa.
+          </p>
+          <div class="stat-row">
+            <div class="stat">
+              <span class="stat-number">80K</span>
+              <span class="stat-label">Habitantes</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">2.548</span>
+              <span class="stat-label">Metros de altitud</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">400+</span>
+              <span class="stat-label">Años de historia</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SABANA -->
+  <section id="sabana" class="sabana">
+    <div class="sabana-inner reveal">
+      <span class="section-label">La Sabana de Cundinamarca</span>
+      <h2 class="section-title">Una región de<br><em>tierra, niebla y tradición</em></h2>
+      <p class="section-body">La Sabana de Bogotá es un altiplano mágico donde la niebla matutina abraza los campos de papa, maíz y cereales. Una tierra generosa que ha alimentado a Colombia desde tiempos precolombinos.</p>
+
+      <div class="sabana-cards">
+        <div class="sabana-card">
+          <span class="card-icon">🌾</span>
+          <h3 class="card-title">Agricultura Ancestral</h3>
+          <p class="card-text">Los muiscas desarrollaron sofisticados sistemas de cultivo en la Sabana. La papa, el maíz, la quinua y las habas son herencia directa de esa sabiduría agrícola que hoy sigue viva en los campos funzanos.</p>
+        </div>
+        <div class="sabana-card">
+          <span class="card-icon">🎭</span>
+          <h3 class="card-title">Fiestas y Tradiciones</h3>
+          <p class="card-text">Las ferias y fiestas de Funza celebran la identidad sabanera con música de carranga, comparsas, exposiciones agropecuarias y la famosa Semana Cultural que reúne a toda la comunidad.</p>
+        </div>
+        <div class="sabana-card">
+          <span class="card-icon">🏔️</span>
+          <h3 class="card-title">Paisaje y Naturaleza</h3>
+          <p class="card-text">El Humedal Gualí-Tres Esquinas es uno de los pulmones ecológicos de la región. Rodeado de campos verdes y el horizonte de la cordillera, Funza ofrece paisajes de una belleza sobria y poderosa.</p>
+        </div>
+        <div class="sabana-card">
+          <span class="card-icon">🏺</span>
+          <h3 class="card-title">Herencia Muisca</h3>
+          <p class="card-text">Funza fue el centro político de la confederación muisca. El cacicazgo de Bacatá tuvo aquí su sede, dejando una riqueza cultural arqueológica y espiritual que aún se siente en la identidad local.</p>
+        </div>
+        <div class="sabana-card">
+          <span class="card-icon">🎵</span>
+          <h3 class="card-title">Música Carranguera</h3>
+          <p class="card-text">La carranga, ritmo sabanero por excelencia, es el son del campesinado cundinamarqués. Con guitarras y tiples, cuenta historias del campo con humor, amor y nostalgia auténtica.</p>
+        </div>
+        <div class="sabana-card">
+          <span class="card-icon">🌿</span>
+          <h3 class="card-title">Gastronomía de Tierra</h3>
+          <p class="card-text">El ajiaco, el cocido boyacense, la changua y las fritangas son expresiones culinarias que nacieron en estas tierras. Cocina de sustento, de alma campesina, de ingredientes que saben a Sabana.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATOS -->
+  <section id="platos" style="background: var(--negro); padding: 7rem 2rem;">
+    <div class="platos reveal">
+      <div class="platos-header">
+        <div>
+          <span class="section-label">Nuestra Cocina</span>
+          <h2 class="section-title">Platos que<br><em>cuentan la Sabana</em></h2>
+        </div>
+        <p style="max-width: 30ch; text-align: right; color: rgba(245,236,215,0.5); font-style: italic; font-size: 1.05rem;">Cada receta es un homenaje a la tierra que nos vio nacer</p>
+      </div>
+
+      <div class="platos-grid">
+        <div class="plato-item">
+          <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=800&q=80" alt="Ajiaco">
+          <div class="plato-info">
+            <span class="plato-tag">Insignia</span>
+            <h3 class="plato-name">Ajiaco Santafereño</h3>
+            <p class="plato-desc">Papa criolla, papa pastusa, papa guanquera, mazorca, pollo y guascas. El alma de la Sabana en un plato.</p>
+          </div>
+        </div>
+        <div class="plato-item">
+          <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80" alt="Cocido">
+          <div class="plato-info">
+            <span class="plato-tag">Tradición</span>
+            <h3 class="plato-name">Cocido Sabanero</h3>
+            <p class="plato-desc">Habas, chócolo, papa, costilla y hierbas aromáticas de la Sabana en una olla de barro.</p>
+          </div>
+        </div>
+        <div class="plato-item">
+          <img src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=800&q=80" alt="Changua">
+          <div class="plato-info">
+            <span class="plato-tag">Desayuno</span>
+            <h3 class="plato-name">Changua con Calado</h3>
+            <p class="plato-desc">Sopa de leche con huevos pochados y cilantro. El desayuno que calienta el alma en las mañanas de niebla.</p>
+          </div>
+        </div>
+        <div class="plato-item">
+          <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80" alt="Fritanga">
+          <div class="plato-info">
+            <span class="plato-tag">Festivo</span>
+            <h3 class="plato-name">Fritanga Criolla</h3>
+            <p class="plato-desc">Morcilla, longaniza, papa criolla frita, chicharrón y arepa. La celebración campesina en un solo plato.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRADICION -->
+  <section class="tradicion">
+    <div class="tradicion-inner reveal">
+      <span class="section-label">Nuestra Filosofía</span>
+      <div class="quote">
+        La mesa es el lugar donde la cultura se preserva, donde los abuelos hablan a través de los sabores y la tierra cuenta su historia.
+      </div>
+      <p style="font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--arcilla); opacity: 0.7;">— Vecindad del Chavo, Funza</p>
+
+      <div class="tradicion-grid">
+        <div class="tradicion-item">
+          <span class="tradicion-num">01</span>
+          <h4 class="tradicion-name">Ingredientes Locales</h4>
+          <p class="tradicion-text">Trabajamos con productores funzanos y sabaneros. De la tierra al plato, sin intermediarios.</p>
+        </div>
+        <div class="tradicion-item">
+          <span class="tradicion-num">02</span>
+          <h4 class="tradicion-name">Recetas Ancestrales</h4>
+          <p class="tradicion-text">Nuestras recetas vienen de las abuelas de la Sabana, guardadas por generaciones en libretas desgastadas.</p>
+        </div>
+        <div class="tradicion-item">
+          <span class="tradicion-num">03</span>
+          <h4 class="tradicion-name">Cocina de Olla</h4>
+          <p class="tradicion-text">Cocinamos a fuego lento, en ollas de barro y aluminio. El tiempo es el ingrediente principal.</p>
+        </div>
+        <div class="tradicion-item">
+          <span class="tradicion-num">04</span>
+          <h4 class="tradicion-name">Cultura Viva</h4>
+          <p class="tradicion-text">El restaurante es también un espacio cultural. Música en vivo, arte local y eventos que celebran lo funzano.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESTAURANTE -->
+  <section id="restaurante" style="background: var(--negro); padding: 7rem 2rem;">
+    <div class="restaurante reveal">
+      <div class="restaurante-split">
+        <div class="restaurante-images">
+          <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80" alt="Restaurante interior">
+          <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80" alt="Ambiente">
+          <img src="https://images.unsplash.com/photo-1481833761820-0509d3217039?w=800&q=80" alt="Cocina">
+        </div>
+        <div>
+          <span class="section-label">El Espacio</span>
+          <h2 class="section-title">Un rincón de<br><em>la Sabana en Funza</em></h2>
+          <p class="section-body">
+            Vecindad del Chavo nació con la misión de ser más que un restaurante. Somos un punto de encuentro donde la cultura de la Sabana de Cundinamarca se celebra a diario, entre aromas de leña, risas y buena música.
+          </p>
+
+          <div style="margin-top: 2.5rem;">
+            <div class="amenity">
+              <span class="amenity-icon">📍</span>
+              <span class="amenity-text">Funza, Cundinamarca, Colombia</span>
+            </div>
+            <div class="amenity">
+              <span class="amenity-icon">🕐</span>
+              <span class="amenity-text">Lunes a Domingo — 7:00am a 9:00pm</span>
+            </div>
+            <div class="amenity">
+              <span class="amenity-icon">🎵</span>
+              <span class="amenity-text">Música en vivo los fines de semana</span>
+            </div>
+            <div class="amenity">
+              <span class="amenity-icon">🌿</span>
+              <span class="amenity-text">Ingredientes 100% de la Sabana</span>
+            </div>
+            <div class="amenity">
+              <span class="amenity-icon">🤖</span>
+              <span class="amenity-text">Reservas por chatbot disponibles 24/7</span>
+            </div>
+          </div>
+
+          <a href="#" class="cta-btn">Hacer una Reserva</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Vecindad del Chavo</div>
+    <p class="footer-tagline">Sabor y conexión en cada bocado</p>
+    <div class="footer-info">
+      <p>Funza, Cundinamarca, Colombia</p>
+      <p>Lunes a Domingo — 7:00am a 9:00pm</p>
+    </div>
+    <div class="footer-bottom">
+      © 2026 Vecindad del Chavo — Todos los derechos reservados
+    </div>
+  </footer>
+
+  <!-- BOTPRESS CHATBOT -->
+  <script>
+    window.addEventListener('load', function() {
+      var script1 = document.createElement('script');
+      script1.src = 'https://cdn.botpress.cloud/webchat/v3.6/inject.js';
+      script1.onload = function() {
+        var script2 = document.createElement('script');
+        script2.src = 'https://files.bpcontent.cloud/2026/04/27/21/20260427214821-2908ZJH3.js';
+        document.body.appendChild(script2);
+      };
+      document.body.appendChild(script1);
+    });
+  </script>
+
+  <!-- SCROLL REVEAL -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
